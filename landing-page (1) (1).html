@@ -362,50 +362,35 @@
             observer.observe(element);
         });
 
-        // Contact Form Logic (Required)
-        const contactForm = document.getElementById('contact-form');
-        const formStatus = document.getElementById('form-status');
-        const submitBtn = document.getElementById('submit-btn');
+       const contactForm = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
+const submitBtn = document.getElementById('submit-btn');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        submitBtn.innerHTML = 'Sending...';
+        submitBtn.disabled = true;
         
-        if (contactForm) {
-            contactForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = 'Sending... <svg class="animate-spin ml-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
-                submitBtn.disabled = true;
-                
-                try {
-                    const formData = new FormData(contactForm);
-                    const response = await fetch('https://zgnpmogdjnnhpwewavnr.supabase.co/functions/v1/contact-form-submit', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            projectId: '{{PROJECT_ID}}',
-                            name: formData.get('name'),
-                            email: formData.get('email'),
-                            message: formData.get('message')
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (response.ok) {
-                        formStatus.textContent = 'Message sent successfully! We will be in touch shortly.';
-                        formStatus.className = 'text-sm text-center font-medium mt-4 text-green-600';
-                        contactForm.reset();
-                    } else {
-                        formStatus.textContent = data.error || 'Failed to send message.';
-                        formStatus.className = 'text-sm text-center font-medium mt-4 text-red-600';
-                    }
-                } catch (error) {
-                    formStatus.textContent = 'Network error. Please try again.';
-                    formStatus.className = 'text-sm text-center font-medium mt-4 text-red-600';
-                } finally {
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }
+        try {
+            await emailjs.send('service_ID', 'template_ID', {
+                from_name: document.getElementById('name').value,
+                from_email: document.getElementById('email').value,
+                message: document.getElementById('message').value,
+                to_email: 'CAWDAcreates@gmail.com'
             });
+            
+            formStatus.textContent = 'Message sent successfully!';
+            formStatus.className = 'text-sm text-center font-medium mt-4 text-green-600';
+            contactForm.reset();
+        } catch (error) {
+            formStatus.textContent = 'Failed to send message.';
+            formStatus.className = 'text-sm text-center font-medium mt-4 text-red-600';
+        } finally {
+            submitBtn.innerHTML = 'Send Message <i data-lucide="send" class="w-4 h-4"></i>';
+            submitBtn.disabled = false;
+            lucide.createIcons();
         }
-    </script>
-</body>
-</html>
+    });
+}
+Then:
