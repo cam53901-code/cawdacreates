@@ -362,17 +362,8 @@
             observer.observe(element);
         });
 
-       const contactForm = document.getElementById('contact-form');
-const formStatus = document.getElementById('form-status');
-const submitBtn = document.getElementById('submit-btn');
-
-if (contactForm) {
-    contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        submitBtn.innerHTML = 'Sending...';
-        submitBtn.disabled = true;
-        
-        try {
+     https://github.com/cam53901-code/CADWA.git
+   try {
             await emailjs.send('service_ID', 'template_ID', {
                 from_name: document.getElementById('name').value,
                 from_email: document.getElementById('email').value,
