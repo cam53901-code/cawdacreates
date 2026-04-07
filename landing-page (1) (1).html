@@ -362,17 +362,8 @@
             observer.observe(element);
         });
 
-     https://github.com/cam53901-code/CADWA.git
+         https://github.com/cam53901-code/CADWA.git
    try {
-            await emailjs.send('service_ID', 'template_ID', {
-                from_name: document.getElementById('name').value,
-                from_email: document.getElementById('email').value,
-                message: document.getElementById('message').value,
-                to_email: 'CAWDAcreates@gmail.com'
-            });
-            
-            formStatus.textContent = 'Message sent successfully!';
-            formStatus.className = 'text-sm text-center font-medium mt-4 text-green-600';
             contactForm.reset();
         } catch (error) {
             formStatus.textContent = 'Failed to send message.';
